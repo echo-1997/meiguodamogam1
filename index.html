@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameForge攻略站</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #1a1a2e;
+      --secondary: #16213e;
+      --accent: #e94560;
+      --blue: #0f3460;
+      --text: #eaeaea;
+      --card-bg: #1f1f3a;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--primary);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(22, 33, 62, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 0 2rem;
+      border-bottom: 1px solid rgba(233, 69, 96, 0.3);
+    }
+    nav {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--accent);
+      text-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      position: relative;
+      padding: 0.5rem 0;
+      transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* Hero */
+    .hero {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 120px 2rem 80px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--blue) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(233, 69, 96, 0.1) 0%, transparent 50%);
+      animation: pulse 8s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.2); opacity: 0.3; }
+    }
+    .hero h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 900;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 40px rgba(233, 69, 96, 0.6);
+      animation: fadeInUp 0.8s ease-out;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      font-size: 1.3rem;
+      opacity: 0.8;
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+    .search-box {
+      display: flex;
+      gap: 0;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+    .search-box input {
+      padding: 1rem 1.5rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 50px 0 0 50px;
+      background: var(--card-bg);
+      color: var(--text);
+      width: 350px;
+      outline: none;
+      border: 2px solid transparent;
+      transition: border-color 0.3s;
+    }
+    .search-box input:focus { border-color: var(--accent); }
+    .search-box button {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 0 50px 50px 0;
+      background: var(--accent);
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .search-box button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(233, 69, 96, 0.5);
+    }
+
+    /* Section */
+    .section {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-title::before {
+      content: '';
+      width: 5px;
+      height: 40px;
+      background: var(--accent);
+      border-radius: 3px;
+    }
+
+    /* Categories */
+    .categories {
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) var(--secondary);
+    }
+    .category-card {
+      flex: 0 0 280px;
+      height: 180px;
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .category-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(233, 69, 96, 0.3);
+    }
+    .category-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .category-card .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(26, 26, 46, 0.95) 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: 1.5rem;
+    }
+    .category-card h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.3rem;
+    }
+
+    /* Guide Grid */
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+    .guide-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 1px solid rgba(233, 69, 96, 0.1);
+    }
+    .guide-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(233, 69, 96, 0.2);
+      border-color: rgba(233, 69, 96, 0.4);
+    }
+    .guide-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .guide-card .content { padding: 1.5rem; }
+    .guide-card .tag {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: rgba(233, 69, 96, 0.2);
+      color: var(--accent);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    .guide-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      transition: color 0.3s;
+    }
+    .guide-card:hover h3 { color: var(--accent); }
+    .guide-card .meta {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin-top: 1rem;
+    }
+
+    /* Weapons */
+    .weapon-list {
+      display: flex;
+      gap: 2rem;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+    }
+    .weapon-card {
+      flex: 0 0 300px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid rgba(233, 69, 96, 0.15);
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .weapon-card:hover {
+      transform: scale(1.03);
+      border-color: var(--accent);
+    }
+    .weapon-card .icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--accent), var(--blue));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    .weapon-card h3 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .weapon-card .type {
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .weapon-card .stats {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .stat-row span {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      width: 50px;
+    }
+    .stat-bar {
+      flex: 1;
+      height: 8px;
+      background: var(--secondary);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .stat-bar div {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #ff6b6b);
+      border-radius: 4px;
+    }
+
+    /* Boss Section */
+    .boss-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .boss-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 1.5rem;
+      border-left: 4px solid var(--accent);
+      transition: transform 0.3s;
+    }
+    .boss-card:hover { transform: translateX(8px); }
+    .boss-card h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+    .boss-card .location { color: var(--accent); font-size: 0.9rem; margin-bottom: 1rem; }
+    .boss-card p { font-size: 0.95rem; opacity: 0.8; }
+
+    /* Footer */
+    footer {
+      background: var(--secondary);
+      padding: 3rem 2rem;
+      text-align: center;
+      margin-top: 4rem;
+      border-top: 1px solid rgba(233, 69, 96, 0.2);
+    }
+    footer p { opacity: 0.6; font-size: 0.95rem; }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .search-box input { width: 200px; }
+      .hero h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">GAMEFORGE</div>
+    <ul class="nav-links">
+      <li><a href="#home">首页</a></li>
+      <li><a href="#guides">攻略</a></li>
+      <li><a href="#weapons">武器库</a></li>
+      <li><a href="#bosses">BOSS</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero" id="home">
+  <h1>游戏<span>攻略</span>数据库</h1>
+  <p>收录全平台热门游戏最全攻略、武器数据与BOSS打法</p>
+  <div class="search-box">
+    <input type="text" placeholder="搜索游戏、攻略、武器...">
+    <button>搜索</button>
+  </div>
+</section>
+
+<section class="section" id="guides">
+  <h2 class="section-title">游戏分类</h2>
+  <div class="categories">
+    <div class="category-card">
+      <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400" alt="动作冒险">
+      <div class="overlay"><h3>动作冒险</h3></div>
+    </div>
+    <div class="category-card">
+      <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400" alt="角色扮演">
+      <div class="overlay"><h3>角色扮演</h3></div>
+    </div>
+    <div class="category-card">
+      <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=400" alt="射击游戏">
+      <div class="overlay"><h3>射击游戏</h3></div>
+    </div>
+    <div class="category-card">
+      <img src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400" alt="策略战棋">
+      <div class="overlay"><h3>策略战棋</h3></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">热门攻略</h2>
+  <div class="guide-grid">
+    <div class="guide-card">
+      <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600" alt="艾尔登法环">
+      <div class="content">
+        <span class="tag">角色扮演</span>
+        <h3>艾尔登法环 全结局图文攻略</h3>
+        <div class="meta"><span>难度: 地狱</span><span>阅读: 12.3万</span></div>
+      </div>
+    </div>
+    <div class="guide-card">
+      <img src="https://images.unsplash.com/photo-1493711662062-fa541f7f3d24?w=600" alt="塞尔达">
+      <div class="content">
+        <span class="tag">动作冒险</span>
+        <h3>王国之泪 120神庙全收集</h3>
+        <div class="meta"><span>难度: 困难</span><span>阅读: 8.7万</span></div>
+      </div>
+    </div>
+    <div class="guide-card">
+      <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600" alt="黑神话">
+      <div class="content">
+        <span class="tag">动作冒险</span>
+        <h3>黑神话悟空 全BOSS打法教学</h3>
+        <div class="meta"><span>难度: 困难</span><span>阅读: 15.2万</span></div>
+      </div>
+    </div>
+    <div class="guide-card">
+      <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600" alt="战神">
+      <div class="content">
+        <span class="tag">动作冒险</span>
+        <h3>战神5 全部谜题解法汇总</h3>
+        <div class="meta"><span>难度: 中等</span><span>阅读: 6.1万</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="weapons">
+  <h2 class="section-title">武器库</h2>
+  <div class="weapon-list">
+    <div class="weapon-card">
+      <div class="icon">⚔️</div>
+      <h3>暗夜长剑</h3>
+      <p class="type">长剑 / 物理系</p>
+      <div class="stats">
+        <div class="stat-row"><span>攻击力</span><div class="stat-bar"><div style="width: 85%"></div></div></div>
+        <div class="stat-row"><span>攻速</span><div class="stat-bar"><div style="width: 70%"></div></div></div>
+        <div class="stat-row"><span>射程</span><div class="stat-bar"><div style="width: 50%"></div></div></div>
+        <div class="stat-row"><span>暴击</span><div class="stat-bar"><div style="width: 40%"></div></div></div>
+      </div>
+    </div>
+    <div class="weapon-card">
+      <div class="icon">🏹</div>
+      <h3>星尘之弓</h3>
+      <p class="type">弓箭 / 元素系</p>
+      <div class="stats">
+        <div class="stat-row"><span>攻击力</span><div class="stat-bar"><div style="width: 65%"></div></div></div>
+        <div class="stat-row"><span>攻速</span><div class="stat-bar"><div style="width: 55%"></div></div></div>
+        <div class="stat-row"><span>射程</span><div class="stat-bar"><div style="width: 95%"></div></div></div>
+        <div class="stat-row"><span>暴击</span><div class="stat-bar"><div style="width: 60%"></div></div></div>
+      </div>
+    </div>
+    <div class="weapon-card">
+      <div class="icon">🔨</div>
+      <h3>裂地战锤</h3>
+      <p class="type">重锤 / 力量系</p>
+      <div class="stats">
+        <div class="stat-row"><span>攻击力</span><div class="stat-bar"><div style="width: 95%"></div></div></div>
+        <div class="stat-row"><span>攻速</span><div class="stat-bar"><div style="width: 30%"></div></div></div>
+        <div class="stat-row"><span>射程</span><div class="stat-bar"><div style="width: 40%"></div></div></div>
+        <div class="stat-row"><span>暴击</span><div class="stat-bar"><div style="width: 75%"></div></div></div>
+      </div>
+    </div>
+    <div class="weapon-card">
+      <div class="icon">🗡️</div>
+      <h3>幻影双刃</h3>
+      <p class="type">双剑 / 敏捷系</p>
+      <div class="stats">
+        <div class="stat-row"><span>攻击力</span><div class="stat-bar"><div style="width: 70%"></div></div></div>
+        <div class="stat-row"><span>攻速</span><div class="stat-bar"><div style="width: 95%"></div></div></div>
+        <div class="stat-row"><span>射程</span><div class="stat-bar"><div style="width: 35%"></div></div></div>
+        <div class="stat-row"><span>暴击</span><div class="stat-bar"><div style="width: 85%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="bosses">
+  <h2 class="section-title">BOSS数据库</h2>
+  <div class="boss-grid">
+    <div class="boss-card">
+      <h3>🔥 碎星者 拉塔恩</h3>
+      <p class="location">群狼要塞 · 史诗级</p>
+      <p>拥有强大的重力魔法，近战时会被他的跳砍压制。推荐使用骨灰吸引仇恨，自己绕后输出。</p>
+    </div>
+    <div class="boss-card">
+      <h3>💀 艾尔登之王</h3>
+      <p class="location">艾尔登法环 · 传说级</p>
+      <p>多重形态，最终阶段会同时释放多种属性攻击。保持耐心，观察招式循环。</p>
+    </div>
+    <div class="boss-card">
+      <h3>⚡ 风暴之王</h3>
+      <p class="location">天空之城 · 困难级</p>
+      <p>会召唤雷电落点攻击，保持移动并利用掩体。弱点在背部，绕后可打断读条。</p>
+    </div>
+    <div class="boss-card">
+      <h3>🌙 月之公主</h3>
+      <p class="location">月光领域 · 困难级</p>
+      <p>擅长冰属性范围攻击，保持距离观察冰刺轨迹。弱点在头部，需要跳跃攻击触发。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2024 GameForge攻略站 · 仅供学习交流使用</p>
+</footer>
+
+<script>
+  document.querySelector('.search-box button').addEventListener('click', () => {
+    const q = document.querySelector('.search-box input').value;
+    if (q) alert('搜索: ' + q);
+  });
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
